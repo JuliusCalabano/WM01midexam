@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ITWM-01 Midterm Practical Examination: Personal Portfolio Website using React and Bootstrap 5." />
+  <title>ITWM-01 | Midterm Practical Examination</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #68738a;
+      --primary: #4f46e5;
+      --primary-dark: #3730a3;
+      --soft: #eef2ff;
+      --line: #e6e9f2;
+      --surface: #ffffff;
+      --page: #f7f8fc;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--page);
+      font-family: "DM Sans", sans-serif;
+      line-height: 1.7;
+    }
+    h1, h2, h3, h4, .navbar-brand { font-family: "Space Grotesk", sans-serif; }
+    .navbar {
+      background: rgba(255,255,255,.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+    .navbar-brand { font-weight: 700; letter-spacing: -.04em; }
+    .brand-mark {
+      display: inline-grid; place-items: center;
+      width: 34px; height: 34px; margin-right: 9px;
+      border-radius: 10px; color: white; background: var(--primary);
+      font-size: .9rem;
+    }
+    .nav-link { color: #59647a; font-weight: 600; font-size: .94rem; }
+    .nav-link:hover, .nav-link:focus { color: var(--primary); }
+    .hero {
+      position: relative; overflow: hidden;
+      padding: 100px 0 82px;
+      background:
+        radial-gradient(circle at 85% 10%, rgba(129,140,248,.22), transparent 28%),
+        radial-gradient(circle at 10% 90%, rgba(196,181,253,.20), transparent 30%),
+        linear-gradient(135deg, #fff 0%, #f2f4ff 100%);
+      border-bottom: 1px solid var(--line);
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 7px 12px; border: 1px solid #d9ddff; border-radius: 999px;
+      color: var(--primary-dark); background: rgba(255,255,255,.8);
+      font-size: .82rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+    }
+    .eyebrow-dot { width: 7px; height: 7px; border-radius: 50%; background: #6366f1; }
+    .hero h1 { max-width: 760px; margin: 22px 0 18px; font-size: clamp(2.5rem, 6vw, 4.65rem); line-height: 1.06; letter-spacing: -.06em; }
+    .hero h1 span { color: var(--primary); }
+    .hero-copy { max-width: 680px; color: var(--muted); font-size: 1.1rem; }
+    .hero-panel {
+      max-width: 430px; margin-left: auto; padding: 25px;
+      background: rgba(255,255,255,.88); border: 1px solid #e1e5f5;
+      border-radius: 22px; box-shadow: 0 22px 60px rgba(42,48,91,.09);
+    }
+    .panel-row { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+    .panel-row:last-child { border-bottom: 0; }
+    .panel-label { color: var(--muted); font-size: .88rem; }
+    .panel-value { font-weight: 700; text-align: right; }
+    .btn-primary { --bs-btn-bg: var(--primary); --bs-btn-border-color: var(--primary); --bs-btn-hover-bg: var(--primary-dark); --bs-btn-hover-border-color: var(--primary-dark); border-radius: 10px; font-weight: 700; padding: 11px 18px; }
+    .btn-outline-primary { --bs-btn-color: var(--primary); --bs-btn-border-color: #c7c9ff; --bs-btn-hover-bg: var(--primary); --bs-btn-hover-border-color: var(--primary); border-radius: 10px; font-weight: 700; padding: 11px 18px; }
+    .section { padding: 76px 0; }
+    .section-white { background: var(--surface); }
+    .section-kicker { color: var(--primary); font-size: .8rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .section-title { margin: 8px 0 12px; font-size: clamp(1.9rem, 4vw, 2.7rem); letter-spacing: -.045em; }
+    .section-intro { max-width: 720px; color: var(--muted); }
+    .info-card, .requirement-card, .rubric-card, .note-card {
+      height: 100%; padding: 24px; background: white; border: 1px solid var(--line);
+      border-radius: 18px; box-shadow: 0 8px 24px rgba(26,35,71,.035);
+    }
+    .icon-box {
+      display: grid; place-items: center; width: 46px; height: 46px;
+      margin-bottom: 17px; border-radius: 14px; background: var(--soft);
+      color: var(--primary); font-size: 1.25rem; font-weight: 800;
+    }
+    .info-card h3, .requirement-card h3 { font-size: 1.15rem; margin-bottom: 8px; }
+    .info-card p, .requirement-card p { color: var(--muted); margin-bottom: 0; }
+    .check-list { list-style: none; padding: 0; margin: 0; }
+    .check-list li { position: relative; padding: 9px 0 9px 30px; border-bottom: 1px solid #eff1f7; }
+    .check-list li:last-child { border-bottom: 0; }
+    .check-list li::before {
+      content: "✓"; position: absolute; left: 0; top: 9px; display: grid; place-items: center;
+      width: 21px; height: 21px; border-radius: 50%; color: #3730a3; background: #e8eaff;
+      font-size: .78rem; font-weight: 800;
+    }
+    .tag {
+      display: inline-block; margin: 4px 4px 0 0; padding: 5px 10px;
+      color: #3730a3; background: #eef2ff; border-radius: 7px; font-size: .8rem; font-weight: 700;
+    }
+    .rubric-wrap { overflow: hidden; background: white; border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 8px 24px rgba(26,35,71,.035); }
+    .table { margin-bottom: 0; }
+    .table thead th { padding: 17px 20px; background: #f1f3ff; color: #3730a3; border-bottom: 1px solid #e0e4fa; font-size: .83rem; text-transform: uppercase; letter-spacing: .05em; }
+    .table tbody td { padding: 16px 20px; vertical-align: middle; border-color: #edf0f6; }
+    .points { font-weight: 800; color: var(--primary-dark); text-align: right; white-space: nowrap; }
+    .total-row td { background: #f8f9ff; font-weight: 800; }
+    .total-pill { display: inline-block; padding: 7px 13px; border-radius: 9px; color: white; background: var(--primary); }
+    .step-number { display: grid; place-items: center; flex: 0 0 38px; width: 38px; height: 38px; border-radius: 12px; background: var(--primary); color: white; font-weight: 800; }
+    .step { display: flex; align-items: flex-start; gap: 14px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+    .step:last-child { border-bottom: 0; }
+    .step p { margin: 4px 0 0; color: var(--muted); }
+    .code-sample { padding: 16px 18px; overflow-x: auto; border-radius: 12px; background: #15182b; color: #e5e7ff; font: .9rem/1.7 Consolas, Monaco, monospace; }
+    .submission {
+      padding: 32px; color: white; border-radius: 22px;
+      background: linear-gradient(120deg, #3730a3, #6366f1);
+    }
+    .submission p { color: #e2e5ff; }
+    .filename { display: inline-block; padding: 9px 13px; border: 1px solid rgba(255,255,255,.25); border-radius: 9px; background: rgba(255,255,255,.1); color: white; font-family: Consolas, monospace; overflow-wrap: anywhere; }
+    .footer { padding: 28px 0; background: #fff; border-top: 1px solid var(--line); color: var(--muted); font-size: .9rem; }
+    .back-top { color: var(--primary); font-weight: 700; text-decoration: none; }
+    @media (max-width: 767px) {
+      .hero { padding: 72px 0 58px; }
+      .hero-panel { margin: 34px 0 0; }
+      .section { padding: 58px 0; }
+      .table thead th, .table tbody td { padding: 13px 14px; }
+      .submission { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="#home"><span class="brand-mark">IT</span>ITWM-01 <span class="text-secondary fw-normal ms-2">/ Midterm</span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+          <li class="nav-item"><a class="nav-link" href="#overview">Overview</a></li>
+          <li class="nav-item"><a class="nav-link" href="#requirements">Requirements</a></li>
+          <li class="nav-item"><a class="nav-link" href="#rubric">Grading Rubric</a></li>
+          <li class="nav-item ms-lg-2"><a class="btn btn-primary btn-sm px-3 py-2" href="#submission">Submission Details</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero" id="home">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-7">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> Midterm Practical Examination</div>
+          <h1>Build your own <span>personal portfolio.</span></h1>
+          <p class="hero-copy">Create a simple, responsive portfolio website using React.js and Bootstrap 5. Introduce yourself, highlight your skills, and showcase your projects using reusable React components.</p>
+          <div class="d-flex flex-wrap gap-3 mt-4">
+            <a href="#requirements" class="btn btn-primary">View Exam Requirements <span aria-hidden="true">→</span></a>
+            <a href="#rubric" class="btn btn-outline-primary">See Grading Rubric</a>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="hero-panel">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h2 class="h5 mb-0">Examination at a glance</h2>
+              <span class="tag">100 points</span>
+            </div>
+            <div class="panel-row"><span class="panel-label">Course</span><span class="panel-value">ITWM-01</span></div>
+            <div class="panel-row"><span class="panel-label">Assessment</span><span class="panel-value">Practical Exam</span></div>
+            <div class="panel-row"><span class="panel-label">Technology</span><span class="panel-value">React + Bootstrap 5</span></div>
+            <div class="panel-row"><span class="panel-label">Suggested duration</span><span class="panel-value">2 hours</span></div>
+            <div class="panel-row"><span class="panel-label">Project type</span><span class="panel-value">Single-page portfolio</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section section-white" id="overview">
+      <div class="container">
+        <div class="section-kicker">01 / Overview</div>
+        <h2 class="section-title">Your task</h2>
+        <p class="section-intro mb-4">You are a student learning modern web development. Your task is to build a personal portfolio website that presents your background, skills, and sample projects in a clear and professional way.</p>
+        <div class="row g-4">
+          <div class="col-md-4"><article class="info-card"><div class="icon-box">01</div><h3>Introduce yourself</h3><p>Create a welcoming hero section with your name, a short introduction, and a profile photo or avatar.</p></article></div>
+          <div class="col-md-4"><article class="info-card"><div class="icon-box">02</div><h3>Show your strengths</h3><p>Present your technical or professional skills and highlight at least two academic or personal projects.</p></article></div>
+          <div class="col-md-4"><article class="info-card"><div class="icon-box">03</div><h3>Build with React</h3><p>Organize your interface into components and use Bootstrap 5 to make your design responsive.</p></article></div>
+        </div>
+        <div class="alert alert-primary border-0 mt-4 mb-0" role="note">
+          <strong>Remember:</strong> Your website must use React JSX and Bootstrap classes. A plain HTML page that only looks like a portfolio does not meet the React requirements.
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="requirements">
+      <div class="container">
+        <div class="section-kicker">02 / Website requirements</div>
+        <h2 class="section-title">Sections you must include</h2>
+        <p class="section-intro mb-5">Your portfolio should contain all seven sections below. You may customize the colors, typography, layout, and overall style as long as every required section is present.</p>
+        <div class="row g-4">
+          <div class="col-md-6 col-lg-4"><article class="requirement-card"><div class="icon-box">A</div><h3>Navigation Bar</h3><p>Display your name or personal brand and links to the main sections of your portfolio.</p><div class="mt-3"><span class="tag">Home</span><span class="tag">About</span><span class="tag">Skills</span><span class="tag">Projects</span><span class="tag">Contact</span></div></article></div>
+          <div class="col-md-6 col-lg-4"><article class="requirement-card"><div class="icon-box">B</div><h3>Hero Section</h3><p>Include your full name, a short introduction or role, a profile photo/avatar, and a button linking to another section.</p></article></div>
+          <div class="col-md-6 col-lg-4"><article class="requirement-card"><div class="icon-box">C</div><h3>About Me</h3><p>Write a short introduction about yourself. Include your course, year level, interests, or career goals.</p></article></div>
+          <div class="col-md-6 col-lg-4"><article class="requirement-card"><div class="icon-box">D</div><h3>Skills</h3><p>Display at least four technical or professional skills. Use Bootstrap badges, cards, lists, or progress bars.</p></article></div>
+          <div class="col-md-6 col-lg-4"><article class="requirement-card"><div class="icon-box">E</div><h3>Projects</h3><p>Show at least two academic or personal projects. Each needs a title, short description, and image or visual representation.</p></article></div>
+          <div class="col-md-6 col-lg-4"><article class="requirement-card"><div class="icon-box">F</div><h3>Contact</h3><p>Display an email address and at least one other contact detail or social profile link. A sample email is acceptable.</p></article></div>
+          <div class="col-md-6 col-lg-4"><article class="requirement-card"><div class="icon-box">G</div><h3>Footer</h3><p>Include your name or personal brand and a copyright notice.</p></article></div>
+          <div class="col-md-6 col-lg-8"><article class="requirement-card"><div class="icon-box">R</div><h3>Responsive layout</h3><p>Use Bootstrap's grid system and responsive utilities so your website is readable on both small and large screens.</p><div class="mt-3"><span class="tag">container</span><span class="tag">row</span><span class="tag">col-md-*</span><span class="tag">g-*</span><span class="tag">navbar</span><span class="tag">card</span></div></article></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-white" id="react">
+      <div class="container">
+        <div class="section-kicker">03 / React requirements</div>
+        <h2 class="section-title">Show that you understand React</h2>
+        <p class="section-intro mb-4">Your project will be evaluated not only on appearance but also on how you organize and reuse your code.</p>
+        <div class="row g-4">
+          <div class="col-lg-6">
+            <div class="note-card">
+              <h3 class="h5 mb-3">Required concepts</h3>
+              <ul class="check-list">
+                <li>Use JSX to define the website interface.</li>
+                <li>Create functional React components.</li>
+                <li>Import and export components correctly.</li>
+                <li>Use at least one reusable component.</li>
+                <li>Pass data to a component using props.</li>
+                <li>Apply Bootstrap classes within JSX.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="note-card">
+              <h3 class="h5 mb-3">Suggested project structure</h3>
+              <div class="code-sample" aria-label="Suggested React project folder structure">src/<br>
+  components/<br>
+    Navbar.jsx<br>
+    Hero.jsx<br>
+    About.jsx<br>
+    Skills.jsx<br>
+    Projects.jsx<br>
+    Contact.jsx<br>
+    Footer.jsx<br>
+  App.jsx<br>
+  main.jsx<br>
+  index.css</div>
+              <p class="small text-secondary mt-3 mb-0">You may use a different file structure if your components are clearly organized and your application works correctly.</p>
+            </div>
+          </div>
+        </div>
+        <div class="note-card mt-4">
+          <h3 class="h5">Example: a reusable component with props</h3>
+          <p class="text-secondary">For example, you can create one component for a skill and reuse it to display different skills.</p>
+          <div class="code-sample">function Skill({ name }) {<br>
+  return &lt;span className="badge text-bg-primary me-2"&gt;{name}&lt;/span&gt;;<br>
+}<br><br>
+export default Skill;</div>
+          <p class="small text-secondary mt-3 mb-0">This is an example to help you understand props. You are responsible for building and integrating your own components.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="workflow">
+      <div class="container">
+        <div class="section-kicker">04 / Suggested workflow</div>
+        <h2 class="section-title">How to complete the examination</h2>
+        <div class="row g-4">
+          <div class="col-lg-7">
+            <div class="note-card">
+              <div class="step"><div class="step-number">1</div><div><h3 class="h6 mb-1">Prepare your project</h3><p>Open the provided React + Vite starter project and confirm that it runs.</p></div></div>
+              <div class="step"><div class="step-number">2</div><div><h3 class="h6 mb-1">Create your components</h3><p>Build the navigation, hero, about, skills, projects, contact, and footer components.</p></div></div>
+              <div class="step"><div class="step-number">3</div><div><h3 class="h6 mb-1">Apply Bootstrap</h3><p>Use Bootstrap's grid, spacing, buttons, cards, and responsive classes.</p></div></div>
+              <div class="step"><div class="step-number">4</div><div><h3 class="h6 mb-1">Use props</h3><p>Pass information to at least one reusable component rather than repeating the same markup.</p></div></div>
+              <div class="step"><div class="step-number">5</div><div><h3 class="h6 mb-1">Test and submit</h3><p>Check navigation links, layout, content, and responsiveness. Run the app before submitting.</p></div></div>
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <div class="note-card h-100">
+              <h3 class="h5 mb-3">Before you submit</h3>
+              <ul class="check-list">
+                <li>All required sections are included.</li>
+                <li>Components are imported and rendered.</li>
+                <li>At least one component receives props.</li>
+                <li>Bootstrap styling is visible and consistent.</li>
+                <li>Links and buttons work as intended.</li>
+                <li>The layout works on mobile and desktop.</li>
+                <li>The project runs using <code>npm run dev</code>.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-white" id="rubric">
+      <div class="container">
+        <div class="section-kicker">05 / Assessment</div>
+        <h2 class="section-title">Grading rubric</h2>
+        <p class="section-intro mb-4">Your portfolio will be assessed using the following criteria. Review the point distribution before you begin.</p>
+        <div class="rubric-wrap">
+          <div class="table-responsive">
+            <table class="table align-middle">
+              <thead><tr><th scope="col">Criteria</th><th scope="col" class="text-end">Points</th></tr></thead>
+              <tbody>
+                <tr><td>Navigation bar and hero section</td><td class="points">15</td></tr>
+                <tr><td>About Me and Contact sections</td><td class="points">10</td></tr>
+                <tr><td>Skills and Projects sections</td><td class="points">15</td></tr>
+                <tr><td>Bootstrap layout and responsiveness</td><td class="points">15</td></tr>
+                <tr><td>React components and JSX</td><td class="points">20</td></tr>
+                <tr><td>Props and component reusability</td><td class="points">10</td></tr>
+                <tr><td>Visual design, organization, and functionality</td><td class="points">15</td></tr>
+                <tr class="total-row"><td>Total</td><td class="points"><span class="total-pill">100 points</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p class="small text-secondary mt-3 mb-0">Tip: A visually attractive page is not enough on its own. Your React code, component structure, props usage, and responsive Bootstrap layout also contribute to your score.</p>
+      </div>
+    </section>
+
+    <section class="section" id="submission">
+      <div class="container">
+        <div class="submission">
+          <div class="row align-items-center g-4">
+            <div class="col-lg-8">
+              <div class="text-uppercase small fw-bold mb-2" style="letter-spacing:.12em;color:#c7d2fe;">Final step</div>
+              <h2 class="mb-3">Prepare your submission</h2>
+              <p class="mb-3">Submit your complete project folder as a ZIP file. Make sure your source files are included and the application runs correctly before submitting.</p>
+              <div class="small mb-2">Required filename format</div>
+              <div class="filename">Lastname_Firstname_Midterm.zip</div>
+            </div>
+            <div class="col-lg-4">
+              <div class="p-3 rounded-4" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);">
+                <h3 class="h5">Important reminders</h3>
+                <ul class="mb-0 ps-3" style="color:#e2e5ff;">
+                  <li>Use your own content and design.</li>
+                  <li>Keep your code organized.</li>
+                  <li>Check for errors before submission.</li>
+                  <li>Follow your instructor's submission instructions.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
+      <span><strong class="text-dark">ITWM-01</strong> · Midterm Practical Examination</span>
+      <span>Personal Portfolio Website · React.js + Bootstrap 5</span>
+      <a class="back-top" href="#home">Back to top ↑</a>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
